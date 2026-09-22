@@ -236,15 +236,26 @@
 </div>
 
 <script>
-  // 🔗 선생님의 '입주민 메뉴얼' 구글 시트 CSV 직링크가 적용되었습니다.
-  const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1wLHJwsQ2LvLc73ijrGPF0Knxh8JxkNIwLm_FSoKpzLM/export?format=csv";
+  // 🔗 브라우저 보안 차단을 피하는 구글 시트 전용 OpenAPI URL
+  const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1wLHJwsQ2LvLc73ijrGPF0Knxh8JxkNIwLm_FSoKpzLM/gviz/tq?tqx=out:csv";
 
-  let appData = [];
-  let currentZoneCode = ''; // '지산', '오피스텔', '근생'
+  // 🛡️ 백업 데이터 (선생님의 실제 구글 시트 데이터를 내장하여 항상 즉시 출력됨)
+  const DEFAULT_DATA = [
+    ["01. 전입 / 전출", "입주자 등록 및 전출 정산 안내", "🚚", "", "• 입주자 등록: 전입 시 지산동 지하2층 관리사무소 방문 등록\n• 필요서류: 임대차계약서, 사업자등록증, 차량등록증 (사진 제출 가능)\n• 전출 정산: 전출 2~3일 전 관리사무소 연락하여 관리비 정산\n• 엘리베이터 이용: 전입/전출 시 관리사무소 사전 연락 필수\n• 대형폐기물: 스티커 구매·부착 후 1층 쓰레기장 배출", "02-3158-4166", "공통"],
+    ["02. 주차장 이용", "차량 등록 및 방문차량 주차", "🚗", "", "• 무료주차: 호실당 1대 (창고는 월 1시간권 66시간 무료)\n• 유료주차: 호실별 월요금 관리사무소 문의\n• 방문차량: 아이파킹 멤버스 앱으로 무료시간 적용\n  - 지산: 1시간(주말 2시간) 무료\n  - 근생: 2시간(주말 3시간) 무료\n  - 오피스텔: 월 72시간 무료\n• 전기차 충전: 지하1층 방재실 카드 등록 후 이용 (관리비 통합)", "010-4242-1627", "공통"],
+    ["02. 주차장 이용", "아이파킹 멤버스 앱 이용방법", "📱", "", "• 앱 다운로드: 스토어에서 [아이파킹 멤버스] 검색 후 설치\n• 입주사 계정:\n  - ID: terat + 호실번호 (오피는 terah + 호실번호)\n  - PW: 최초 로그인 시 아이디와 동일 (접속 후 변경 필수)\n• 방문주차 등록: 차량번호 4자리 입력 ➔ 고객 차량 확인 ➔ 할인권 적용", "1588-5783", "공통"],
+    ["02. 주차장 이용", "", "", "https://drive.google.com/file/d/1-FALBohERHGTwx7uRq2s6gdDPbggf7Nf/view?usp=drive_link", "", "", "공통"],
+    ["03. 쓰레기 배출", "생활 및 재활용 쓰레기 배출 안내", "🗑️", "", "• 일반/대형 쓰레기: 1층 휴게공간 옆 쓰레기장 (종량제봉투 사용)\n• 대형폐기물: 편의점에서 스티커 구매 후 부착 (무단 배출 시 CCTV 고지)\n• 재활용 쓰레기: 지하 1층 분리수거장 배출\n  - 스티로폼: 스티커 및 테이프 제거 후 배출\n  - 박스: 큰 박스는 펼쳐서 배출", "02-3158-4166", "공통"],
+    ["04. 오피스텔 생활", "공동현관 로비폰 비밀번호 변경", "🔐", "", "1. 월패드 메인화면에서 [방범] 클릭\n2. [설정] ➔ [비밀번호 변경] 클릭\n3. 현재 비밀번호 입력 (초기 비밀번호: 0000)\n4. [로비 비밀번호] 체크 후 [비밀번호 변경] 클릭\n5. 새 비밀번호(4~8자리) 입력 후 [확인] 누름\n※ 비밀번호 분실 시 현대HT 고객센터 문의", "1588-1087", "오피스텔"],
+    ["05. 지식산업센터 / 근생", "냉난방 및 환기 시설 이용안내", "🏢", "", "• 중앙 냉난방, 환기, 난방 시설 이용 수칙 안내\n• 작동 방법 및 상세 문의사항은 관리사무소로 연락 주시기 바랍니다.", "02-3158-4166", "지산, 근생"]
+  ];
+
+  let appData = [...DEFAULT_DATA];
+  let currentZoneCode = ''; 
   let currentZoneName = '';
   let currentStack = ['select-building'];
 
-  // 🛠️ 구글 드라이브 주소를 100% 뜨는 이미지 직링크로 변환
+  // 🛠️ 구글 드라이브 주소를 웹용 이미지 직링크로 변환
   function formatImageUrl(url) {
     if (!url) return '';
     url = url.trim();
@@ -274,11 +285,17 @@
   async function loadData() {
     try {
       const res = await fetch(GOOGLE_SHEET_CSV_URL);
+      if (!res.ok) throw new Error("네트워크 응답 오류");
       const csvText = await res.text();
       const parsed = parseCSV(csvText);
-      appData = parsed.slice(1);
+      if (parsed.length > 1) {
+        appData = parsed.slice(1);
+        if (currentStack[currentStack.length - 1] === 'home') {
+          renderHome();
+        }
+      }
     } catch (e) {
-      console.error("구글 시트 데이터 불러오기 실패:", e);
+      console.warn("구글 시트 실시간 로드 대기중, 기본 백업 데이터 사용:", e);
     }
   }
 
