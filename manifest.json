@@ -1,0 +1,15 @@
+{
+  "name": "현대테라타워 향동",
+  "short_name": "테라타워",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#234238",
+  "theme_color": "#234238",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2555/2555035.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
