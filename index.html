@@ -4,656 +4,288 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>현대테라타워 향동 입주민 매뉴얼</title>
-  <link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#002C5F">
+
 <style>
+  /* 🎨 현대 시그니처 테마 (언제든 이전 색상으로 되돌릴 수 있습니다) */
   :root {
-    --bg: #F1F3F2;
-    --surface: #FFFFFF;
-    --surface-sunken: #E7EBE9;
-    --ink: #1C2B27;
-    --ink-soft: #52625D;
-    --line: #D8DEDB;
-    --brand: #234238;
-    --brand-soft: #E4EBE6;
-    --accent: #C77B3F;
-    --accent-ink: #FFFFFF;
-    --danger: #B4472E;
-    --danger-soft: #F6E4DE;
-    --radius-lg: 20px;
-    --radius-md: 14px;
-    --radius-sm: 10px;
-    --shadow: 0 1px 2px rgba(28,43,39,0.06), 0 8px 24px -12px rgba(28,43,39,0.18);
-  }
-  :root:not([data-theme="light"]) {
-    @media (prefers-color-scheme: dark) {
-      --bg: #121815;
-      --surface: #1B2521;
-      --surface-sunken: #232F2A;
-      --ink: #EDF2EF;
-      --ink-soft: #9FB0A9;
-      --line: #2E3A35;
-      --brand: #7FA391;
-      --brand-soft: #1F2E27;
-      --accent: #E0964F;
-      --accent-ink: #17110A;
-      --danger: #E08268;
-      --danger-soft: #3A2420;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #121815;
-    --surface: #1B2521;
-    --surface-sunken: #232F2A;
-    --ink: #EDF2EF;
-    --ink-soft: #9FB0A9;
-    --line: #2E3A35;
-    --brand: #7FA391;
-    --brand-soft: #1F2E27;
-    --accent: #E0964F;
-    --accent-ink: #17110A;
-    --danger: #E08268;
-    --danger-soft: #3A2420;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    --bg: #F8FAFC;            /* 깔끔한 미색 배경 */
+    --surface: #FFFFFF;       /* 카드 흰색 배경 */
+    --ink: #0F172A;           /* 메인 텍스트 (다크 네이비/블랙) */
+    --ink-soft: #475569;      /* 부텍스트 */
+    --line: #E2E8F0;          /* 구분선 */
+    --brand: #002C5F;         /* 현대 딥 네이비 (메인 포인트) */
+    --brand-soft: #F0F4F8;    /* 연한 네이비 백그라운드 */
+    --accent: #C8A261;        /* 매트 골드 (버튼/하이라이트) */
+    --accent-ink: #FFFFFF;   /* 버튼 글자색 */
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --shadow: 0 4px 12px rgba(0, 44, 95, 0.06);
   }
 
   * { box-sizing: border-box; }
-  html {
-    scroll-padding-top: env(safe-area-inset-top, 0px);
-  }
-  html, body {
-    height: 100%;
-  }
   body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: -apple-system, "Apple SD Gothic Neo", "Pretendard Variable", Pretendard,
-      "Malgun Gothic", "Segoe UI", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    display: flex;
-    justify-content: center;
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, "Apple SD Gothic Neo", Pretendard, sans-serif;
+    display: flex; justify-content: center;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .phone {
-    width: 100%;
-    max-width: 440px;
-    min-height: 100%;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    width: 100%; max-width: 440px; min-height: 100vh;
+    background: var(--bg); display: flex; flex-direction: column; position: relative;
   }
 
+  /* 상단 헤더 */
   header.topbar {
-    position: sticky;
-    top: 0;
-    padding-top: env(safe-area-inset-top, 0px);
-    z-index: 20;
-    background: var(--surface);
-    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 20;
+    background: var(--surface); border-bottom: 1px solid var(--line);
   }
-  .topbar-inner {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 14px;
-    min-height: 30px;
-  }
+  .topbar-inner { display: flex; align-items: center; gap: 8px; padding: 14px 16px; }
   .topbar-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: none;
-    background: transparent;
-    color: var(--ink);
-    font-size: 18px;
-    cursor: pointer;
-    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 10px; border: none;
+    background: var(--brand-soft); color: var(--brand); font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
   }
-  .topbar-btn:active { background: var(--surface-sunken); }
-  .topbar-btn.invisible { visibility: hidden; }
-  .topbar-title {
-    flex: 1;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  .topbar-title { flex: 1; text-align: center; font-size: 16px; font-weight: 700; color: var(--brand); }
   .topbar-call {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--brand-soft);
-    color: var(--brand);
-    text-decoration: none;
-    font-size: 16px;
-    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--brand-soft); color: var(--brand);
+    display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: bold;
   }
 
-  main {
-    flex: 1;
-    padding: 18px 16px 40px;
-  }
+  main { flex: 1; padding: 18px 16px 40px; }
 
-  /* ---- Home ---- */
-  .home-hero {
-    padding: 6px 2px 20px;
-  }
-  .home-hero .eyebrow {
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin: 0 0 6px;
-  }
-  .home-hero h1 {
-    margin: 0;
-    font-size: 26px;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .home-hero h1 em {
-    font-style: normal;
-    color: var(--brand);
-  }
-
-  .menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  /* 메인 카드 메뉴 (동적 생성) */
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
   .menu-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 18px 14px;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 108px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 20px 16px; text-align: left;
+    cursor: pointer; display: flex; flex-direction: column; gap: 12px;
+    box-shadow: var(--shadow); transition: transform 0.1s ease;
   }
-  .menu-card:active { transform: scale(0.97); }
+  .menu-card:active { transform: scale(0.98); }
   .menu-card .ic {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--brand-soft);
-    color: var(--brand);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--brand-soft); display: flex; align-items: center; justify-content: center; font-size: 22px;
   }
-  .menu-card .label {
-    font-size: 14.5px;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.35;
-  }
-  .menu-card .sub {
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-top: -6px;
-  }
+  .menu-card .label { font-size: 15px; font-weight: 700; color: var(--brand); line-height: 1.3; }
 
-  .home-footer-note {
-    margin-top: 22px;
-    padding: 12px 14px;
-    border-radius: var(--radius-md);
-    background: var(--surface-sunken);
-    color: var(--ink-soft);
-    font-size: 12.5px;
-    line-height: 1.6;
-  }
-
-  /* ---- Detail ---- */
-  .page-title {
-    font-size: 21px;
-    font-weight: 700;
-    margin: 2px 0 16px;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-
+  /* 상세 화면 블록 */
   .block {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 16px 16px 18px;
-    margin-bottom: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 18px; margin-bottom: 16px;
+    box-shadow: var(--shadow);
   }
-  .block-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
+  .block-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .block-head .ic {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
-    background: var(--brand-soft);
-    color: var(--brand);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 10px; background: var(--brand-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
   }
-  .block-head h3 {
-    margin: 0;
-    font-size: 15.5px;
-    font-weight: 700;
-    color: var(--ink);
+  .block-head h3 { margin: 0; font-size: 16px; font-weight: 700; color: var(--brand); }
+
+  /* 이미지 슬라이더 */
+  .slider-container {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    gap: 8px; border-radius: 12px; margin: 12px 0;
+    -webkit-overflow-scrolling: touch;
   }
-  .block ul {
-    margin: 0;
-    padding-left: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+  .slider-item { flex: 0 0 100%; scroll-snap-align: start; position: relative; }
+  .slider-item img {
+    width: 100%; border-radius: 10px; display: block; object-fit: cover;
+    cursor: zoom-in; border: 1px solid var(--line);
   }
-  .block li {
-    font-size: 13.8px;
-    line-height: 1.55;
-    color: var(--ink);
-  }
-  .block li b {
-    color: var(--brand);
-    font-weight: 700;
-  }
-  .block p.note {
-    margin: 10px 0 0;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    line-height: 1.55;
+  .slider-badge {
+    position: absolute; bottom: 8px; right: 8px;
+    background: rgba(0, 44, 95, 0.85); color: #fff; font-size: 11px;
+    padding: 3px 8px; border-radius: 10px;
   }
 
-  .warn-block {
-    background: var(--danger-soft);
-    border: 1px solid transparent;
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
-    margin-top: 10px;
-    display: flex;
-    gap: 9px;
-    align-items: flex-start;
-  }
-  .warn-block .ic { color: var(--danger); font-size: 15px; margin-top: 1px; }
-  .warn-block span { font-size: 12.8px; line-height: 1.6; color: var(--danger); }
-
+  /* 전화 걸기 버튼 (매트 골드 포인트) */
   .call-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 13px 14px;
-    border-radius: var(--radius-md);
-    background: var(--accent);
-    color: var(--accent-ink);
-    text-decoration: none;
-    font-size: 14.5px;
-    font-weight: 700;
-    margin-top: 4px;
-  }
-  .call-btn:active { opacity: 0.85; }
-  .call-btn .num { font-weight: 500; opacity: 0.92; }
-
-  /* ---- Steps ---- */
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .step {
-    display: flex;
-    gap: 12px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .step:last-child { border-bottom: none; padding-bottom: 4px; }
-  .step .num {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--brand);
-    color: var(--surface);
-    font-size: 12.5px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .step .body h4 {
-    margin: 0 0 4px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .step .body p {
-    margin: 0;
-    font-size: 13.2px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-  }
-  .step .body .keycap {
-    display: inline-block;
-    padding: 1px 8px;
-    border-radius: 6px;
-    background: var(--surface-sunken);
-    color: var(--ink);
-    font-size: 12.5px;
-    font-weight: 600;
-    margin: 0 1px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 13px; border-radius: var(--radius-md);
+    background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    font-size: 14px; font-weight: 700; margin-top: 14px; border: none;
   }
 
-  .placeholder-block {
-    text-align: center;
-    padding: 30px 16px;
-    color: var(--ink-soft);
+  /* 모달 */
+  .modal {
+    display: none; position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.85); justify-content: center; align-items: center;
   }
-  .placeholder-block .ic { font-size: 26px; margin-bottom: 8px; }
-  .placeholder-block p { margin: 0; font-size: 13px; line-height: 1.6; }
+  .modal img { max-width: 92vw; max-height: 85vh; border-radius: 8px; }
 
   section.page { display: none; }
-  section.page.active { display: block; animation: fadein 0.18s ease; }
-  @keyframes fadein {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  section.page.active { display: block; }
 </style>
 </head>
 <body>
 <div class="phone">
-
   <header class="topbar">
     <div class="topbar-inner">
-      <button class="topbar-btn" id="backBtn" aria-label="뒤로가기">←</button>
+      <button class="topbar-btn" id="backBtn">🏠</button>
       <div class="topbar-title" id="pageTitle">현대테라타워 향동</div>
-      <a class="topbar-call" href="tel:0231584166" aria-label="관리사무소 전화">☎</a>
+      <a class="topbar-call" href="tel:0231584166">☎</a>
     </div>
   </header>
 
   <main>
-
-    <!-- HOME -->
+    <!-- 홈 화면 -->
     <section class="page active" data-page="home">
-      <div class="home-hero">
-        <p class="eyebrow">현대테라타워 향동 입주민 매뉴얼</p>
-        <h1>궁금한 게 있으면<br><em>여기서 먼저</em> 찾아보세요</h1>
+      <div style="padding: 4px 2px 12px;">
+        <p style="font-size:13px; color:var(--ink-soft); margin:0 0 4px; font-weight:500;">입주민 안내 매뉴얼</p>
+        <h1 style="margin:0; font-size:22px; font-weight:700;">원하시는 항목을<br><span style="color:var(--brand)">선택해 주세요</span></h1>
       </div>
-
-      <div class="menu-grid">
-        <button class="menu-card" data-go="movein">
-          <div class="ic">🚪</div>
-          <div>
-            <div class="label">전입 / 전출</div>
-            <div class="sub">등록·정산 안내</div>
-          </div>
-        </button>
-        <button class="menu-card" data-go="parking">
-          <div class="ic">🚗</div>
-          <div>
-            <div class="label">주차장 이용</div>
-            <div class="sub">등록·방문·충전</div>
-          </div>
-        </button>
-        <button class="menu-card" data-go="trash">
-          <div class="ic">♻️</div>
-          <div>
-            <div class="label">쓰레기 배출</div>
-            <div class="sub">일반·재활용</div>
-          </div>
-        </button>
-        <button class="menu-card" data-go="lobbyphone">
-          <div class="ic">🔢</div>
-          <div>
-            <div class="label">로비폰 비번 변경</div>
-            <div class="sub">5단계 안내</div>
-          </div>
-        </button>
-        <button class="menu-card" data-go="etc">
-          <div class="ic">🏢</div>
-          <div>
-            <div class="label">지산 / 근생 / 기타</div>
-            <div class="sub">공용시설 안내</div>
-          </div>
-        </button>
-        <button class="menu-card" data-go="safety">
-          <div class="ic">🚨</div>
-          <div>
-            <div class="label">24시 방재 / 안전</div>
-            <div class="sub">비상 연락처</div>
-          </div>
-        </button>
-      </div>
-
-      <div class="home-footer-note">
-        급한 문의는 상단 ☎ 버튼으로 관리사무소에 바로 연결됩니다. 각 페이지 안에서도 담당 연락처로 바로 전화를 걸 수 있어요.
+      <div class="menu-grid" id="menuGrid">
+        <!-- 구글 시트 항목에 따라 자동으로 메뉴 생성 -->
       </div>
     </section>
 
-    <!-- 전입/전출 -->
-    <section class="page" data-page="movein">
-      <h2 class="page-title">전입 / 전출 안내</h2>
-
-      <div class="block">
-        <div class="block-head"><div class="ic">📋</div><h3>입주자 등록</h3></div>
-        <ul>
-          <li>등록 장소: <b>지산동 지하 2층 관리사무소</b></li>
-          <li>입주 등록 시 차량 및 오토바이 <b>동시 등록</b></li>
-          <li>제출 서류: 임대차계약서, 사업자등록증, 차량등록증 (사진 제출 가능)</li>
-        </ul>
-      </div>
-
-      <div class="block">
-        <div class="block-head"><div class="ic">📦</div><h3>전출 정산 및 엘리베이터</h3></div>
-        <ul>
-          <li>전출 <b>2~3일 전</b> 관리사무소로 연락 후 관리비 정산 진행</li>
-          <li>이삿짐 운반 시 <b>엘리베이터 사전 예약 필수</b></li>
-        </ul>
-      </div>
-
-      <a class="call-btn" href="tel:0231584166">📞 관리사무소 연결 <span class="num">02-3158-4166</span></a>
+    <!-- 상세 화면 -->
+    <section class="page" data-page="detail">
+      <h2 id="categoryTitle" style="font-size:19px; font-weight:700; margin-bottom:16px; color:var(--brand);"></h2>
+      <div id="detailContent"></div>
     </section>
-
-    <!-- 주차장 -->
-    <section class="page" data-page="parking">
-      <h2 class="page-title">주차장 이용 안내</h2>
-
-      <div class="block">
-        <div class="block-head"><div class="ic">🅿️</div><h3>무료 / 유료 주차</h3></div>
-        <ul>
-          <li>전 호실 <b>1대 무료주차</b> 기본 제공</li>
-          <li>지산 창고는 제외 — 창고는 월 1시간권 66시간 무료</li>
-          <li>추가 등록은 호실별 월 요금으로 관리사무소 문의</li>
-        </ul>
-      </div>
-
-      <div class="block">
-        <div class="block-head"><div class="ic">🚙</div><h3>방문차량 (아이파킹 앱)</h3></div>
-        <ul>
-          <li>지산 방문: <b>1시간</b> (주말 2시간) 무료</li>
-          <li>근생 방문: <b>2시간</b> (주말 3시간) 무료</li>
-          <li>오피스텔 방문: <b>월 72시간</b> 무료</li>
-        </ul>
-        <p class="note">아이파킹 멤버스 앱에서 무료시간 적용 및 추가 할인권 구매 가능</p>
-      </div>
-
-      <a class="call-btn" href="tel:01042421627">📞 주차관리소장 직통 <span class="num">010-4242-1627</span></a>
-
-      <div class="block" style="margin-top:12px">
-        <div class="block-head"><div class="ic">🔌</div><h3>전기차 충전</h3></div>
-        <ul>
-          <li>관리사무소에서 신청서 작성</li>
-          <li>지하 1층 방재실에서 카드 등록</li>
-          <li>충전요금은 관리비에 합산 청구</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 쓰레기 -->
-    <section class="page" data-page="trash">
-      <h2 class="page-title">생활쓰레기 배출 안내</h2>
-
-      <div class="block">
-        <div class="block-head"><div class="ic">🗑️</div><h3>일반쓰레기 &amp; 대형폐기물</h3></div>
-        <ul>
-          <li>배출 장소: <b>1층 휴게공간 옆 쓰레기장</b></li>
-          <li>종량제봉투 사용 필수</li>
-          <li>대형폐기물은 편의점 스티커 구매·부착 후 배출</li>
-        </ul>
-        <div class="warn-block">
-          <div class="ic">⚠️</div>
-          <span>무단 배출 시 CCTV 확인 후 과태료 또는 고지 조치될 수 있습니다.</span>
-        </div>
-      </div>
-
-      <div class="block">
-        <div class="block-head"><div class="ic">♻️</div><h3>재활용 쓰레기</h3></div>
-        <ul>
-          <li>배출 장소: <b>지하 1층 분리수거장</b></li>
-          <li>스티로폼은 테이프·스티커 제거 후 배출</li>
-          <li>박스류는 반드시 펼쳐서 배출</li>
-        </ul>
-      </div>
-
-      <a class="call-btn" href="tel:0231584166">📞 관리사무소 연결 <span class="num">02-3158-4166</span></a>
-    </section>
-
-    <!-- 로비폰 -->
-    <section class="page" data-page="lobbyphone">
-      <h2 class="page-title">로비폰 / 월패드 비밀번호 변경</h2>
-
-      <div class="block">
-        <div class="steps">
-          <div class="step">
-            <div class="num">1</div>
-            <div class="body"><h4>방범 메뉴 열기</h4><p>월패드 메인 화면에서 <span class="keycap">방범</span> 을 누르세요.</p></div>
-          </div>
-          <div class="step">
-            <div class="num">2</div>
-            <div class="body"><h4>비밀번호 변경 진입</h4><p><span class="keycap">설정</span> → <span class="keycap">비밀번호 변경</span> 순서로 누르세요.</p></div>
-          </div>
-          <div class="step">
-            <div class="num">3</div>
-            <div class="body"><h4>초기 비밀번호 입력</h4><p>초기 비밀번호 <span class="keycap">0000</span> 을 입력하세요.</p></div>
-          </div>
-          <div class="step">
-            <div class="num">4</div>
-            <div class="body"><h4>로비 비밀번호 선택</h4><p><span class="keycap">로비 비밀번호</span> 체크박스를 선택 후 변경을 누르세요.</p></div>
-          </div>
-          <div class="step">
-            <div class="num">5</div>
-            <div class="body"><h4>새 비밀번호 등록</h4><p>4~8자리 신규 비밀번호를 입력하고 <span class="keycap">확인</span> 을 누르면 완료됩니다.</p></div>
-          </div>
-        </div>
-        <div class="warn-block">
-          <div class="ic">🔒</div>
-          <span>초기 비밀번호(0000)는 보안에 취약하니 입주 후 가능한 빨리 변경해 주세요.</span>
-        </div>
-      </div>
-
-      <a class="call-btn" href="tel:15881087">📞 현대HT 고객센터 <span class="num">1588-1087</span></a>
-    </section>
-
-    <!-- 지산/근생/기타 -->
-    <section class="page" data-page="etc">
-      <h2 class="page-title">지산 / 근생 / 기타</h2>
-      <div class="block placeholder-block">
-        <div class="ic">🏗️</div>
-        <p>이 카테고리는 콘텐츠 준비 중입니다.<br>택배함, 통신 인입, 공용시설 등의<br>안내가 이후 이 블록 형태로 추가됩니다.</p>
-      </div>
-      <a class="call-btn" href="tel:0231584166">📞 관리사무소 연결 <span class="num">02-3158-4166</span></a>
-    </section>
-
-    <!-- 24시 방재/안전 -->
-    <section class="page" data-page="safety">
-      <h2 class="page-title">24시 방재 / 안전</h2>
-      <div class="block">
-        <div class="block-head"><div class="ic">🚨</div><h3>비상 상황 연락</h3></div>
-        <ul>
-          <li>화재경보, 정전, 누수 등 시설 이상 발생 시 방재실로 즉시 연락</li>
-          <li>방재실은 24시간 상시 운영됩니다</li>
-        </ul>
-      </div>
-      <a class="call-btn" href="tel:0231584167">📞 방재실 직통 <span class="num">02-3158-4167</span></a>
-      <p class="note" style="padding:0 4px">※ 방재실 번호는 예시입니다. 실제 배포 전 정확한 번호로 교체해 주세요.</p>
-    </section>
-
   </main>
 </div>
 
+<!-- 이미지 확대 모달 -->
+<div class="modal" id="imageModal" onclick="this.style.display='none'">
+  <img id="modalImg" src="" alt="확대 이미지">
+</div>
+
 <script>
-  const pages = document.querySelectorAll('.page');
-  const titleEl = document.getElementById('pageTitle');
-  const backBtn = document.getElementById('backBtn');
-  const titles = {
-    home: '현대테라타워 향동',
-    movein: '전입 / 전출',
-    parking: '주차장 이용',
-    trash: '쓰레기 배출',
-    lobbyphone: '로비폰 비번 변경',
-    etc: '지산 / 근생 / 기타',
-    safety: '24시 방재 / 안전'
-  };
-  let stack = ['home'];
+  // 🔗 구글 시트에서 생성한 CSV 주소를 이곳 큰따옴표 안으로 복사해 붙여넣으세요.
+  const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQslU5t5gIF2MfbrjxQmjlcGwJKmLYZzmT6md8w4hHW5TlhF4R9-rn7dXzqj-JRzk_1CUIbNwydd2Jn/pub?output=csv";
 
-  function render() {
-    const current = stack[stack.length - 1];
-    pages.forEach(p => p.classList.toggle('active', p.dataset.page === current));
-    titleEl.textContent = titles[current] || '';
-    if (current === 'home') {
-      backBtn.innerHTML = '🏠';
-      backBtn.setAttribute('aria-label', '홈');
-      backBtn.onclick = null;
-    } else {
-      backBtn.innerHTML = '←';
-      backBtn.setAttribute('aria-label', '뒤로가기');
+  let appData = [];
+  let currentStack = ['home'];
+
+  function parseCSV(text) {
+    let lines = [];
+    let row = [''];
+    let inQuotes = false;
+    for (let c of text) {
+      if (c === '"') { inQuotes = !inQuotes; }
+      else if (c === ',' && !inQuotes) { row.push(''); }
+      else if ((c === '\r' || c === '\n') && !inQuotes) {
+        if (row.length > 1 || row[0] !== '') lines.push(row);
+        row = [''];
+      } else { row[row.length - 1] += c; }
     }
-    window.scrollTo(0, 0);
+    if (row.length > 1 || row[0] !== '') lines.push(row);
+    return lines;
   }
 
-  function go(page) {
-    if (stack[stack.length - 1] !== page) stack.push(page);
-    render();
+  async function loadData() {
+    if (!GOOGLE_SHEET_CSV_URL) {
+      // 샘플 예시 데이터
+      appData = [
+        ["01. 전입 / 전출", "입주자 등록 및 전출 정산", "🚚", "", "지산동 지하2층 관리사무소 방문 등록 (임대차계약서, 사업자등록증, 차량등록증 필요)", "02-3158-4166"],
+        ["02. 주차장 이용", "차량 등록 및 방문차량 주차", "🚗", "", "무료주차: 호실당 1대 (창고 월 66시간)\n방문차량 아이파킹 멤버스 앱 등록 후 할인 적용", "010-4242-1627"]
+      ];
+      renderHome();
+      return;
+    }
+
+    try {
+      const res = await fetch(GOOGLE_SHEET_CSV_URL);
+      const csvText = await res.text();
+      const parsed = parseCSV(csvText);
+      appData = parsed.slice(1);
+      renderHome();
+    } catch (e) {
+      console.error("데이터 불러오기 실패:", e);
+    }
   }
 
-  function back() {
-    if (stack.length > 1) stack.pop();
-    else stack = ['home'];
-    render();
+  function renderHome() {
+    const grid = document.getElementById('menuGrid');
+    const categories = [...new Set(appData.map(row => row[0]))].filter(Boolean);
+    
+    grid.innerHTML = categories.map(cat => {
+      const item = appData.find(row => row[0] === cat);
+      const icon = (item && item[2]) ? item[2] : '🏢';
+      return `
+        <button class="menu-card" onclick="openCategory('${cat}')">
+          <div class="ic">${icon}</div>
+          <div class="label">${cat}</div>
+        </button>
+      `;
+    }).join('');
   }
 
-  document.querySelectorAll('[data-go]').forEach(btn => {
-    btn.addEventListener('click', () => go(btn.dataset.go));
+  function openCategory(category) {
+    currentStack.push('detail');
+    document.getElementById('pageTitle').textContent = category;
+    document.getElementById('categoryTitle').textContent = category;
+    document.getElementById('backBtn').textContent = '←';
+
+    const items = appData.filter(row => row[0] === category);
+    const container = document.getElementById('detailContent');
+
+    container.innerHTML = items.map(item => {
+      const title = item[1];
+      const icon = item[2] || '📌';
+      const images = item[3] ? item[3].split(',').map(s => s.trim()).filter(Boolean) : [];
+      const content = item[4] ? item[4].replace(/\n/g, '<br>') : '';
+      const phone = item[5];
+
+      let sliderHtml = '';
+      if (images.length > 0) {
+        sliderHtml = `
+          <div class="slider-container">
+            ${images.map((img, idx) => `
+              <div class="slider-item">
+                <img src="${img}" onclick="openModal('${img}')" alt="안내 이미지">
+                ${images.length > 1 ? `<div class="slider-badge">${idx + 1} / ${images.length} (좌우로 스와이프)</div>` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="block">
+          <div class="block-head"><div class="ic">${icon}</div><h3>${title}</h3></div>
+          ${sliderHtml}
+          ${content ? `<p style="font-size:14px; line-height:1.6; color:var(--ink); margin:8px 0 0;">${content}</p>` : ''}
+          ${phone ? `<a class="call-btn" href="tel:${phone.replace(/[^0-9]/g, '')}">📞 Direct Call (${phone})</a>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    renderPages();
+  }
+
+  function renderPages() {
+    const current = currentStack[currentStack.length - 1];
+    document.querySelectorAll('section.page').forEach(p => {
+      p.classList.toggle('active', p.dataset.page === current);
+    });
+    if (current === 'home') {
+      document.getElementById('pageTitle').textContent = '현대테라타워 향동';
+      document.getElementById('backBtn').textContent = '🏠';
+    }
+  }
+
+  document.getElementById('backBtn').addEventListener('click', () => {
+    if (currentStack.length > 1) currentStack.pop();
+    renderPages();
   });
 
-  backBtn.addEventListener('click', () => {
-    if (stack[stack.length - 1] === 'home') return;
-    back();
-  });
+  function openModal(imgSrc) {
+    document.getElementById('modalImg').src = imgSrc;
+    document.getElementById('imageModal').style.display = 'flex';
+  }
 
-  render();
+  loadData();
 </script>
 </body>
 </html>
