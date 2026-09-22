@@ -65,12 +65,11 @@
     color: var(--brand); 
     letter-spacing: -0.5px;
   }
-  /* 📞 전화기 버튼 크기 확대 */
   .topbar-call {
     width: 38px; height: 38px; border-radius: 10px;
     background: var(--brand-soft); color: var(--brand);
     display: flex; align-items: center; justify-content: center; text-decoration: none; 
-    font-size: 18px; /* 이모티콘 크기 확대 */
+    font-size: 18px; 
   }
 
   main { flex: 1; padding: 18px 16px 40px; display: flex; flex-direction: column; }
@@ -168,10 +167,10 @@
   }
   .modal img { max-width: 92vw; max-height: 85vh; border-radius: 8px; }
 
-  /* 🎮 게임 크레딧 스타일 하단 제작자 문구 */
+  /* 🎮 게임 크레딧 스타일 하단 제작자 문구 (상하 여백 2배 확대) */
   .footer-credit {
     margin-top: auto;
-    padding: 24px 0 10px;
+    padding: 48px 0 20px; /* 기존 대비 상하 여백을 2배로 확장 */
     text-align: center;
     font-size: 11px;
     color: var(--ink-soft);
