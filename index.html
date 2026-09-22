@@ -125,7 +125,7 @@
   /* 이미지 슬라이더 */
   .slider-container {
     display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-    gap: 8px; border-radius: 12px; margin: 12px 0;
+    gap: 8px; border-radius: 12px; margin: 4px 0;
     -webkit-overflow-scrolling: touch;
   }
   .slider-item { flex: 0 0 100%; scroll-snap-align: start; position: relative; }
@@ -244,7 +244,6 @@
   let currentZoneName = '';
   let currentStack = ['select-building'];
 
-  // 🛠️ 구글 드라이브 주소를 웹에서 100% 뜨는 직링크로 자동 전환해 주는 함수
   function formatImageUrl(url) {
     if (!url) return '';
     url = url.trim();
@@ -277,6 +276,7 @@
       appData = [
         ["01. 전입 / 전출", "입주자 등록 및 전출 정산 안내", "🚚", "", "• 지산동 지하2층 관리사무소 방문하여 입주자 등록\n• 필요서류: 임대차계약서, 사업자등록증, 차량등록증", "02-3158-4166", "공통"],
         ["02. 주차장 이용", "차량 등록 및 방문차량 주차", "🚗", "", "• 무료주차: 호실당 1대 (창고는 월 66시간)\n• 방문차량: 아이파킹 멤버스 앱 이용", "010-4242-1627", "공통"],
+        ["02. 주차장 이용", "", "", "https://drive.google.com/uc?export=view&id=1enx4XxFw3rfcRIXIgAWmTW9RtCZHKMyQ", "", "", "공통"],
         ["03. 쓰레기 배출", "생활/재활용 쓰레기 배출 안내", "🗑️", "", "• 일반/대형: 1층 휴게공간 옆 쓰레기장\n• 재활용: 지하1층 분리수거장 배출", "02-3158-4166", "공통"],
         ["04. 오피스텔 생활", "공동현관 로비폰 비밀번호 변경", "🔐", "", "1. 월패드 메인화면 '방범' 클릭\n2. '설정' ➔ '비밀번호 변경' 클릭", "1588-1087", "오피스텔"],
         ["05. 지식산업센터 / 근생", "냉난방 및 환기 시설 이용안내", "🏢", "", "• 중앙 냉난방 및 환기 시스템 이용 수칙 안내", "02-3158-4166", "지산, 근생"]
@@ -344,12 +344,11 @@
     const container = document.getElementById('detailContent');
 
     container.innerHTML = items.map(item => {
-      const title = item[1];
+      const title = item[1] ? item[1].trim() : '';
       const icon = item[2] || '📌';
-      // 🛠️ 이미지를 불러올 때 formatImageUrl로 자동 변환 처리합니다.
       const images = item[3] ? item[3].split(',').map(s => formatImageUrl(s)).filter(Boolean) : [];
-      const content = item[4] ? item[4].replace(/\n/g, '<br>') : '';
-      const phone = item[5];
+      const content = item[4] ? item[4].replace(/\n/g, '<br>').trim() : '';
+      const phone = item[5] ? item[5].trim() : '';
 
       let sliderHtml = '';
       if (images.length > 0) {
@@ -365,9 +364,12 @@
         `;
       }
 
+      // 💡 제목이 있을 때만 헤더 상자를 출력합니다.
+      const headHtml = title ? `<div class="block-head"><div class="ic">${icon}</div><h3>${title}</h3></div>` : '';
+
       return `
         <div class="block">
-          <div class="block-head"><div class="ic">${icon}</div><h3>${title}</h3></div>
+          ${headHtml}
           ${sliderHtml}
           ${content ? `<p style="font-size:14px; line-height:1.6; color:var(--ink); margin:8px 0 0;">${content}</p>` : ''}
           ${phone ? `<a class="call-btn" href="tel:${phone.replace(/[^0-9]/g, '')}">📞 전화 걸기 (${phone})</a>` : ''}
