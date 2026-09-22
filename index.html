@@ -10,18 +10,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#002C5F">
 
-<!-- 구글 폰트: 픽셀아트 느낌의 네모지고 레트로한 폰트 적용 -->
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
-  /* 🎨 현대 시그니처 테마 및 픽셀아트 로고 설정 */
+  /* 🎨 현대 시그니처 테마 및 앱 잠금 설정 */
   :root {
     --bg: #F8FAFC;            
     --surface: #FFFFFF;       
     --ink: #0F172A;           
     --ink-soft: #475569;      
     --line: #E2E8F0;          
-    --brand: #002C5F;         /* 현대 딥 블루 */
+    --brand: #002C5F;         /* 현대 딥 네이비 */
     --brand-soft: #F0F4F8;    
     --accent: #C8A261;        
     --accent-ink: #FFFFFF;   
@@ -55,40 +52,16 @@
     position: sticky; top: 0; z-index: 20;
     background: var(--surface); border-bottom: 1px solid var(--line);
   }
-  .topbar-inner { display: flex; align-items: center; gap: 8px; padding: 10px 16px; }
+  .topbar-inner { display: flex; align-items: center; gap: 8px; padding: 14px 16px; }
   .topbar-btn {
     width: 36px; height: 36px; border-radius: 10px; border: none;
     background: var(--brand-soft); color: var(--brand); font-size: 16px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-
-  /* 🕹️ 픽셀아트 2단 로고 디자인 스타일 */
-  .pixel-logo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    font-family: 'Press Start 2P', monospace; /* 레트로 픽셀 폰트 */
-    letter-spacing: 2px;
-    user-select: none;
-    padding: 2px 0;
+  .topbar-title { 
+    flex: 1; text-align: center; font-size: 15px; font-weight: 700; color: var(--brand); 
+    letter-spacing: -0.5px; /* 글씨 간격을 조금 좁게 조정 */
   }
-  .pixel-logo .row-te {
-    font-size: 13px;
-    font-weight: bold;
-    color: var(--brand);
-    text-shadow: 1px 1px 0px #94A3B8; /* 도트 입체감 효과 */
-  }
-  .pixel-logo .row-ra {
-    font-size: 13px;
-    font-weight: bold;
-    color: var(--brand);
-    margin-top: 3px;
-    text-shadow: 1px 1px 0px #94A3B8;
-  }
-
   .topbar-call {
     width: 36px; height: 36px; border-radius: 10px;
     background: var(--brand-soft); color: var(--brand);
@@ -199,11 +172,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <button class="topbar-btn" id="backBtn">🏠</button>
-      <!-- 🕹️ 픽셀아트 2단 로고 적용부 -->
-      <div class="pixel-logo" id="pageTitle">
-        <div class="row-te">TE</div>
-        <div class="row-ra">RA</div>
-      </div>
+      <div class="topbar-title" id="pageTitle">현대테라타워 향동</div>
       <a class="topbar-call" href="tel:0231584166">☎</a>
     </div>
   </header>
@@ -378,8 +347,7 @@
 
   function openCategory(category) {
     currentStack.push('detail');
-    // 상세 페이지로 들어갈 때는 상단 타이틀을 해당 카테고리 이름으로 변경
-    document.getElementById('pageTitle').innerHTML = `<span style="font-size:15px; font-weight:700; color:var(--brand); font-family:sans-serif;">${category}</span>`;
+    document.getElementById('pageTitle').textContent = category;
     document.getElementById('categoryTitle').textContent = category;
 
     const filteredRows = getFilteredItems();
@@ -429,23 +397,13 @@
     });
 
     const backBtn = document.getElementById('backBtn');
-    const titleArea = document.getElementById('pageTitle');
+    const titleEl = document.getElementById('pageTitle');
 
     if (current === 'select-building') {
-      titleArea.innerHTML = `
-        <div class="pixel-logo">
-          <div class="row-te">TE</div>
-          <div class="row-ra">RA</div>
-        </div>
-      `;
+      titleEl.textContent = '현대테라타워 향동';
       backBtn.textContent = '🏠';
     } else if (current === 'home') {
-      titleArea.innerHTML = `
-        <div class="pixel-logo">
-          <div class="row-te">TE</div>
-          <div class="row-ra">RA</div>
-        </div>
-      `;
+      titleEl.textContent = currentZoneName;
       backBtn.textContent = '🏠';
     } else {
       backBtn.textContent = '←';
