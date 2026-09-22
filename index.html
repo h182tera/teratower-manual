@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#002C5F">
 
 <style>
-  /* 🎨 현대 시그니처 테마 */
+  /* 🎨 현대 시그니처 테마 및 앱 잠금 설정 */
   :root {
     --bg: #F8FAFC;            /* 깔끔한 미색 배경 */
     --surface: #FFFFFF;       /* 카드 흰색 배경 */
@@ -27,7 +27,13 @@
     --shadow: 0 4px 12px rgba(0, 44, 95, 0.06);
   }
 
-  * { box-sizing: border-box; }
+  * { 
+    box-sizing: border-box; 
+    -webkit-user-select: none;   /* 텍스트 선택 및 복사 방지 (모바일 사파리/크롬) */
+    user-select: none;            /* 표준 텍스트 선택 방지 */
+    -webkit-touch-callout: none;  /* 길게 눌렀을 때 브라우저 팝업 메뉴 뜨는 것 방지 */
+  }
+
   body {
     margin: 0; background: var(--bg); color: var(--ink);
     font-family: -apple-system, "Apple SD Gothic Neo", Pretendard, sans-serif;
@@ -236,10 +242,10 @@
 </div>
 
 <script>
-  // 🔗 브라우저 보안 차단을 피하는 구글 시트 전용 OpenAPI URL
+  // 🔗 구글 시트 전용 OpenAPI URL
   const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1wLHJwsQ2LvLc73ijrGPF0Knxh8JxkNIwLm_FSoKpzLM/gviz/tq?tqx=out:csv";
 
-  // 🛡️ 백업 데이터 (선생님의 실제 구글 시트 데이터를 내장하여 항상 즉시 출력됨)
+  // 🛡️ 백업 데이터 (선생님의 실제 구글 시트 데이터 내장)
   const DEFAULT_DATA = [
     ["01. 전입 / 전출", "입주자 등록 및 전출 정산 안내", "🚚", "", "• 입주자 등록: 전입 시 지산동 지하2층 관리사무소 방문 등록\n• 필요서류: 임대차계약서, 사업자등록증, 차량등록증 (사진 제출 가능)\n• 전출 정산: 전출 2~3일 전 관리사무소 연락하여 관리비 정산\n• 엘리베이터 이용: 전입/전출 시 관리사무소 사전 연락 필수\n• 대형폐기물: 스티커 구매·부착 후 1층 쓰레기장 배출", "02-3158-4166", "공통"],
     ["02. 주차장 이용", "차량 등록 및 방문차량 주차", "🚗", "", "• 무료주차: 호실당 1대 (창고는 월 1시간권 66시간 무료)\n• 유료주차: 호실별 월요금 관리사무소 문의\n• 방문차량: 아이파킹 멤버스 앱으로 무료시간 적용\n  - 지산: 1시간(주말 2시간) 무료\n  - 근생: 2시간(주말 3시간) 무료\n  - 오피스텔: 월 72시간 무료\n• 전기차 충전: 지하1층 방재실 카드 등록 후 이용 (관리비 통합)", "010-4242-1627", "공통"],
