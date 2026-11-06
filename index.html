@@ -319,6 +319,9 @@
         appData = parsed.slice(1);
         if (currentStack[currentStack.length - 1] === 'home') {
           renderHome();
+        } else if (currentStack[currentStack.length - 1] === 'detail') {
+          const cat = document.getElementById('categoryTitle').textContent;
+          if (cat) openCategory(cat);
         }
       }
     } catch (e) {
