@@ -229,7 +229,6 @@
         </div>
       </div>
 
-      <!-- 게임 크레딧 스타일 제작자 표기 -->
       <div class="footer-credit">made by tera management office 2026</div>
     </section>
 
@@ -243,9 +242,7 @@
         <h1 style="margin:0; font-size:20px; font-weight:700;">원하시는 안내를<br><span style="color:var(--brand)">선택해 주세요</span></h1>
       </div>
 
-      <div class="menu-grid" id="menuGrid">
-        <!-- 공통 + 선택 구역 메뉴가 표시됩니다 -->
-      </div>
+      <div class="menu-grid" id="menuGrid"></div>
 
       <div class="footer-credit">made by tera management office 2026</div>
     </section>
@@ -266,6 +263,7 @@
 </div>
 
 <script>
+  // 캐시 방지를 위해 파라미터(v=timestamp) 추가
   const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1wLHJwsQ2LvLc73ijrGPF0Knxh8JxkNIwLm_FSoKpzLM/gviz/tq?tqx=out:csv";
 
   const DEFAULT_DATA = [
@@ -311,12 +309,14 @@
 
   async function loadData() {
     try {
-      const res = await fetch(GOOGLE_SHEET_CSV_URL);
+      // 캐시 유효기간을 회피하기 위한 타임스탬프 파라미터 추가
+      const res = await fetch(GOOGLE_SHEET_CSV_URL + "&t=" + new Date().getTime());
       if (!res.ok) throw new Error("네트워크 응답 오류");
       const csvText = await res.text();
       const parsed = parseCSV(csvText);
       if (parsed.length > 1) {
-        appData = parsed.slice(1);
+        // 불필요한 따옴표나 트림 처리 보완
+        appData = parsed.slice(1).map(r => r.map(cell => cell.trim().replace(/^"|"$/g, '')));
         if (currentStack[currentStack.length - 1] === 'home') {
           renderHome();
         } else if (currentStack[currentStack.length - 1] === 'detail') {
@@ -342,11 +342,19 @@
     renderPages();
   }
 
+  // 매칭 알고리즘 유연화 (풀네임 '지식산업센터'와 줄임말 '지산' 모두 허용)
   function getFilteredItems() {
     return appData.filter(row => {
       const target = row[6] ? row[6].trim() : '공통';
       if (!target || target.includes('공통')) return true;
-      if (target.includes(currentZoneCode)) return true;
+      
+      if (currentZoneCode === '지산') {
+        if (target.includes('지산') || target.includes('지식산업센터')) return true;
+      } else if (currentZoneCode === '근생') {
+        if (target.includes('근생') || target.includes('근린생활시설')) return true;
+      } else if (currentZoneCode === '오피스텔') {
+        if (target.includes('오피스텔') || target.includes('오피')) return true;
+      }
       return false;
     });
   }
