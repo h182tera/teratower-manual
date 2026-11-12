@@ -233,7 +233,6 @@
     </section>
 
     <section class="page" data-page="detail">
-      <h2 id="categoryTitle" style="font-size:19px; font-weight:700; margin-bottom:16px; color:var(--brand);"></h2>
       <div id="detailContent"></div>
 
       <div class="footer-credit">made by tera management office 2026</div>
@@ -261,6 +260,7 @@
   let appData = [...DEFAULT_DATA];
   let currentZoneCode = ''; 
   let currentZoneName = '';
+  let currentCategory = '';
   let currentStack = ['select-building'];
 
   function formatImageUrl(url) {
@@ -300,9 +300,8 @@
         appData = parsed.slice(1).map(r => r.map(cell => cell.trim().replace(/^"|"$/g, '')));
         if (currentStack[currentStack.length - 1] === 'home') {
           renderHome();
-        } else if (currentStack[currentStack.length - 1] === 'detail') {
-          const cat = document.getElementById('categoryTitle').textContent;
-          if (cat) openCategory(cat);
+        } else if (currentStack[currentStack.length - 1] === 'detail' && currentCategory) {
+          renderDetail(currentCategory);
         }
       }
     } catch (e) {
@@ -357,9 +356,14 @@
   }
 
   function openCategory(category) {
+    currentCategory = category;
     currentStack.push('detail');
+    renderDetail(category);
+    renderPages();
+  }
+
+  function renderDetail(category) {
     document.getElementById('pageTitle').textContent = category;
-    document.getElementById('categoryTitle').textContent = category;
 
     const filteredRows = getFilteredItems();
     const items = filteredRows.filter(row => row[0] === category);
@@ -388,7 +392,6 @@
 
       const headHtml = title ? `<div class="block-head"><div class="ic">${icon}</div><h3>${title}</h3></div>` : '';
 
-      // 📞 전화 연결 버튼 생성 ('전화 걸기' 문구 자동 삽입 방지)
       let phoneBtnHtml = '';
       if (rawPhone) {
         const cleanNumber = rawPhone.replace(/[^0-9]/g, '');
@@ -406,8 +409,6 @@
         </div>
       `;
     }).join('');
-
-    renderPages();
   }
 
   function renderPages() {
